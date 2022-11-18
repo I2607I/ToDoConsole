@@ -18,7 +18,7 @@ def get_date(date):
     # print(date)
     with sq.connect("notes.db") as con:
         cur = con.cursor()
-        print(date)
+        # print(date)
         cur.execute(f'SELECT * FROM notes WHERE date LIKE "{date}"')
         # print("qq", *cur)
         res = []

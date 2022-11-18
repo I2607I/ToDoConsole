@@ -37,7 +37,37 @@ if args.new:
     print('создание новой записи')
     db.new(args.__dict__)
 if not args.new and not args.red:
-    main.show()
+    DATE = datetime.date.today()
+    main.show(DATE)
+    while(1):
+        a = input(">>> ")
+        if a == 'next day':
+            DATE += datetime.timedelta(days=1)
+            main.show(DATE)
+        elif a == 'next' or a == 'next week':
+            DATE += datetime.timedelta(days=7)
+            main.show(DATE)
+        elif a == 'next month':
+            DATE += datetime.timedelta(days=30)
+            main.show(DATE)
+        elif a == 'prev day':
+            DATE -= datetime.timedelta(days=1)
+            main.show(DATE)
+        elif a == 'prev' or a == 'prev week':
+            DATE -= datetime.timedelta(days=7)
+            main.show(DATE)
+        elif a == 'prev month':
+            DATE -= datetime.timedelta(days=30)
+            main.show(DATE)
+        elif a == 'exit':
+            break
+        else:
+            try:
+                d = datetime.datetime.strptime(a, "%d.%m.%Y").date()
+                DATE = d
+                main.show(DATE)
+            except:
+                print("You're so stupid")
     
 # if args.red:
 #     print("table with date")
