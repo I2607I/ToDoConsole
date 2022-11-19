@@ -1,5 +1,5 @@
 # ToDoConsole
 
--example code
+- example code
 
  <python3 input.py >  
