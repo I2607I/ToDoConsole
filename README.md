@@ -5,3 +5,4 @@
  <python3 input.py >  
 h
 h
+h
