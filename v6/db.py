@@ -1,17 +1,15 @@
 import sqlite3 as sq
 
-def new(args):
+Error = 0
+OK = 1
+
+def new(note, date, type):
     with sq.connect("notes.db") as con:
         cur = con.cursor()
-        cur.execute(f'SELECT * FROM types WHERE type = "{args["type"]}"')
-        # print(cur)
-        f = 1
-        for item in cur:
-            f = 0
-        if f:
-            cur.execute(f"""INSERT INTO types (type) VALUES('{args["type"]}')""")
-
-        cur.execute(f'INSERT INTO notes (note, date, done) VALUES("{args["note"]}", "{args["date"]}", 0)')
+        type_id = cur.execute(f'SELECT * FROM types WHERE type = "{type}"')
+        type_id = list(type_id)
+        type_id = type_id[0][0]
+        cur.execute(f'INSERT INTO notes (note, date, done, type_id) VALUES("{note}", "{date}", 0, "{type_id}")')
         # INSERT INTO users (name, old, score) VALUES('Igor', 22, 1000)
 
 def get_any_notes(date, category):
@@ -53,9 +51,19 @@ def get_category():
         # print("qq", *cur)
         res = []
         for item in cur:
-            print(item)
             res.append(item[0])
         return res
+
+def create_category(category):
+    with sq.connect("notes.db") as con:
+        cur = con.cursor()
+        cur.execute(f'SELECT * FROM types WHERE type = "{category}"')
+        if len(list(cur)) == 1:
+            return Error
+        cur.execute(f'INSERT INTO types (type) VALUES("{category}")')
+        return OK
+        
+
 
 
 
